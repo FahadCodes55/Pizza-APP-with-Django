@@ -1,0 +1,224 @@
+{% load static %}
+
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+
+  {% block style %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">🍕 Neha's SliceCrust</div>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'menu' %}">Menu</a></li>
+      <li><a href="{% url 'about' %}">About</a></li>
+      <li><a href="{% url 'contact' %}">Contact</a></li>
+
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+    <div class="search-box">
+      <input type="text" placeholder="Search pizza...">
+      <button>🔍</button>
+    </div>
+  </nav>
+
+  <main class="main-body">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+          <h2>🍕 Neha's SliceCrust</h2>
+          <p>Fresh ingredients. Authentic taste. Delivered fast.</p>
+      </div>
+
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'menu' %}">Menu</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p>Rahwali, Gujranwala</p>
+        <p>Email: fahadtech64@gmail.com</p>
+        <p>Phone: 03265805073</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Pizza Delight. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Get references to the menu toggle button and the navigation links container
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    // Function to toggle the menu's active state and hamburger icon animation
+    const toggleMenu = () => {
+        // Toggles the 'active' class on the navigation links.
+        // This class in CSS controls the display (show/hide) and layout (column) of the menu.
+        navLinks.classList.toggle('active');
+
+        // Toggles the 'open' class on the menu toggle button.
+        // This class in CSS controls the animation of the hamburger icon transforming into an 'X'.
+        menuToggle.classList.toggle('open');
+    };
+
+    // Add an event listener to the menu toggle button.
+    // When the hamburger icon is clicked, the toggleMenu function will be executed.
+    menuToggle.addEventListener('click', toggleMenu);
+
+    // Optional: Add event listeners to each navigation link to close the menu when a link is clicked.
+    // This provides a smoother user experience, especially on single-page applications or when
+    // users navigate to a new section on the same page.
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            // Check if the navigation menu is currently active (open)
+            if (navLinks.classList.contains('active')) {
+                toggleMenu(); // If open, close the menu
+            }
+        });
+    });
+
+    // Optional: Add an event listener for window resize events.
+    // This ensures that if the user resizes the browser from a mobile view to a desktop view
+    // while the mobile menu is open, the menu automatically closes and reverts to the
+    // desktop layout, preventing layout issues.
+    window.addEventListener('resize', () => {
+        // Check if the window width is greater than or equal to 768px (common 'md' breakpoint)
+        // AND if the mobile navigation menu is currently active (open).
+        if (window.innerWidth >= 768 && navLinks.classList.contains('active')) {
+            toggleMenu(); // If both conditions are true, close the menu.
+        }
+    });
+});
+
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get references to the search input, button, and all pizza cards
+    const searchInput = document.querySelector('.search-box input[type="text"]');
+    const searchButton = document.querySelector('.search-box button');
+    const pizzaCards = document.querySelectorAll('.pizza-card'); // All your pizza item divs
+
+    // Create a 'no results' message element, hidden by default
+    let noResultsMessage = document.createElement('div');
+    noResultsMessage.textContent = 'No pizzas found matching your search.';
+    noResultsMessage.style.cssText = `
+        text-align: center;
+        color: #888;
+        font-size: 1.2em;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        display: none; /* Hidden initially */
+    `;
+
+    // Find the container where pizza cards are displayed (e.g., the .form div)
+    // and append the no results message to it. Adjust selector if needed.
+    const pizzaContainer = document.querySelector('.form');
+    if (pizzaContainer) {
+        pizzaContainer.appendChild(noResultsMessage);
+    } else {
+        console.warn("Could not find '.form' container for pizza cards. No results message may not appear.");
+    }
+
+
+    /**
+     * Performs the client-side search by filtering visible pizza cards.
+     */
+    function performSearch() {
+        // Get the search query, convert to lowercase and trim whitespace for case-insensitive matching
+        const query = searchInput.value.toLowerCase().trim();
+        let foundResults = false; // Flag to track if any results are found
+
+        // Loop through each pizza card on the page
+        pizzaCards.forEach(card => {
+            // Get the pizza name element (assuming it's an h2 inside .pizza-content)
+            const pizzaNameElement = card.querySelector('.pizza-content h2');
+
+            if (pizzaNameElement) {
+                const pizzaName = pizzaNameElement.textContent.toLowerCase();
+
+                // Check if the pizza name includes the search query
+                if (pizzaName.includes(query)) {
+                    card.style.display = 'flex'; // Show the pizza card (assuming 'flex' display for pizza-card)
+                    foundResults = true; // Mark that results were found
+                } else {
+                    card.style.display = 'none'; // Hide the pizza card
+                }
+            }
+        });
+
+        // Show or hide the 'no results' message based on search outcome
+        if (noResultsMessage) {
+            if (foundResults || query === '') {
+                // If results were found, or the search bar is empty (show all pizzas), hide the message
+                noResultsMessage.style.display = 'none';
+            } else {
+                // If no results were found for a non-empty query, show the message
+                noResultsMessage.style.display = 'block';
+            }
+        }
+    }
+
+    // Event listener for the search button click
+    if (searchButton) {
+        searchButton.addEventListener('click', performSearch);
+    }
+
+    // Event listener for 'keyup' on the search input, particularly for the 'Enter' key
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                performSearch(); // Perform search on Enter key press
+            } else if (searchInput.value.trim() === '' && event.key !== 'Backspace' && event.key !== 'Delete') {
+                // If the user is typing, but the input becomes empty, show all pizzas
+                // This handles cases where user clears the search
+                performSearch();
+            } else if (searchInput.value.trim() === '' && (event.key === 'Backspace' || event.key === 'Delete')) {
+                // Specifically for backspace/delete to immediately clear filter when input is empty
+                 performSearch();
+            }
+        });
+    }
+
+    // Initial call to performSearch to ensure correct display state on page load
+    // (e.g., if search input had text from a previous navigation/refresh)
+    performSearch();
+});
+
+</script>
+
+</body>
+</html>

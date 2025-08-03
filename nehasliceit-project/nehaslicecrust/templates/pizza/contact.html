@@ -1,0 +1,42 @@
+{% extends 'pizza/base.html' %}
+
+{% load static %}
+
+{% block title %}Contact Us - Pizza Place{% endblock %}
+
+{% block style %}
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7fafc;
+    }
+{% endblock %}
+
+{% block content %}
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <div class="p-4">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center border-t-4 border-red-600 mx-auto">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4 tracking-tight">
+                Get In <span class="text-red-600">Touch</span>
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed mb-4">
+                Have a question or craving? Reach out to us! We're here to help.
+            </p>
+            <div class="space-y-2 text-gray-700">
+                <p>
+                    <strong class="font-semibold">Location:</strong> Rahwali, Gujranqala
+                </p>
+                <p>
+                    <strong class="font-semibold">Phone:</strong> <a href="tel:+15551234567" class="text-red-600 hover:underline">(555) 123-4567</a>
+                </p>
+                <p>
+                    <strong class="font-semibold">Email:</strong> <a href="mailto:info@pizzaplace.com" class="text-red-600 hover:underline">info@pizzaplace.com</a>
+                </p>
+                <p>
+                    <strong class="font-semibold">Hours:</strong> Mon-Sun, 11 AM - 10 PM
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

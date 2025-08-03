@@ -1,0 +1,42 @@
+{% extends 'pizza/base.html' %}
+
+{% load static %}
+
+{% block title %}Neha's SliceCrust{% endblock %}
+
+{% block content %}
+
+
+  <div class="hero-content" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{% static 'pizza.jpg' %}'); margin-top:-17px;">
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                 </div>
+              {% endfor %}
+            {% endif %}
+
+    {% if user.is_authenticated %}
+      <h1>Welcome! {{user.username}}</h1>
+    <h1>Hot & Fresh Pizza Delivered Fast</h1>
+    <p>Experience the taste of authentic Italian pizza straight from the oven.</p>
+    <a href="{% url 'menu' %}" class="cta-button">Menu here!</a>
+    {% else %}
+    <h1>Hot & Fresh Pizza Delivered Fast</h1>
+    <p>Experience the taste of authentic Italian pizza straight from the oven.</p>
+    <a href="{% url 'register' %}" class="cta-button">Order Now</a>
+    {% endif %}
+
+
+  </div>
+
+  <section class="welcome-text">
+    <p>
+      If you're craving delicious, hot pizza made with fresh ingredients, you’ve come to the right place!
+      At <strong>Neha's SliceCrust</strong>, we bring mouthwatering slices right to your door.
+      Your perfect pizza moment starts here. 🍕
+    </p>
+  </section>
+
+{% endblock %}

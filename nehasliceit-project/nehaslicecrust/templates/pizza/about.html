@@ -1,0 +1,28 @@
+{% extends 'pizza/base.html' %}
+
+{% load static %}
+
+{% block title %}About Us - Pizza Place{% endblock %}
+
+{% block style %}
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7fafc; /* Light gray background */
+    }
+{% endblock %}
+
+{% block content %}
+    <!-- Tailwind CSS CDN - It's generally better to include this in your base.html head -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <div class="p-4">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center border-t-4 border-red-600 mx-auto">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4 tracking-tight">
+                About <span class="text-red-600">Our Pizza</span>
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                We craft delicious, authentic pizzas using only the freshest ingredients and a passion for flavor. From classic favorites to unique creations, every slice is made with love!
+            </p>
+        </div>
+    </div>
+{% endblock %}

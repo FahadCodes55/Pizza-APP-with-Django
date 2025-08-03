@@ -1,0 +1,47 @@
+{% extends 'pizza/base.html' %}
+
+{% load static %}
+
+{% block title %}Order Pizza{% endblock %}
+
+
+{% block content %}
+    <h1 class="order-logo">Your Order</h1>
+    <form action="" method="POST" class="form"> {% csrf_token %}
+      <div class="pizza-card">
+        <img src="{{ pizza.image.url }}" style="height:315px;">
+        <div class="pizza-content">
+          <h2>{{ pizza.name }}</h2>
+          <p>{{ pizza.description }}</p>
+<!--          <span class="price">${{ pizza.price }}</span>-->
+          <div class="size">
+            <label for="size">Size:</label>
+              <select id="size" name="size">
+                <option value="small">{{ pizza.small_price }}</option>
+                <option value="medium">{{ pizza.medium_price }}</option>
+                <option value="large">{{ pizza.large_price }}</option>
+              </select>
+          </div>
+          <div class="quantity">
+            <button type="button" class="quantity-btn quantity-minus">-</button>
+            <input type="number" class="quantity-input" value="1" min="1" max="10" name="quantity">
+            <button type="button" class="quantity-btn quantity-plus">+</button>
+          </div>
+          <button class="order-btn">OK</button>
+        </div>
+      </div>
+        <a href="{% url 'menu' %}" class="order-btn">Back here</a>
+    </form>
+    <script>
+        document.querySelector('.quantity-plus').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            let val = parseInt(input.value);
+            if (val < 10) input.value = val + 1;
+        });
+        document.querySelector('.quantity-minus').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            let val = parseInt(input.value);
+            if (val > 1) input.value = val - 1;
+        });
+    </script>
+{% endblock %}
