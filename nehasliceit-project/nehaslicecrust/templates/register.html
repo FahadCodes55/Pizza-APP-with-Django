@@ -3,79 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Important for responsiveness -->
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px; /* Prevents form touching screen edges */
+        }
 
-form {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
-}
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px; /* Prevents overly wide forms */
+            box-sizing: border-box;
+        }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't affect total width */
-}
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
 
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-input[type="submit"]:hover {
-    background-color: #4cae4c;
-}
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
 
-p {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-}
+        p {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
 
-a {
-    color: #5cb85c;
-    text-decoration: none;
-}
+        a {
+            color: #5cb85c;
+            text-decoration: none;
+        }
 
-a:hover {
-    text-decoration: underline;
-}
+        a:hover {
+            text-decoration: underline;
+        }
 
-.alert{
-    color: red;
-    text-align: center;
-    font-weight: bold;
-    margin: 20px;
-}
+        .alert {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        /* Responsive tweaks for smaller devices */
+        @media (max-width: 480px) {
+            form {
+                padding: 20px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+            input[type="submit"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -86,20 +109,21 @@ a:hover {
             {% endfor %}
         {% endif %}
 
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" placeholder="Enter a username" required>
-      <br>
-      <label for="email">Email</label>
-      <input type="email" name="email" id="email" placeholder="Enter your email" required>
-      <br>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="Enter a password" required>
-      <br>
-      <label for="password2">Confirm-Password</label>
-      <input type="password" name="password2" id="password2" placeholder="Confirm your password" required>
-      <br><br>
-      <input type="submit" value="Register">
-      <p>Already have an account <a href="{% url 'login' %}">Login here</a></p>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Enter a username" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter a password" required>
+
+        <label for="password2">Confirm Password</label>
+        <input type="password" name="password2" id="password2" placeholder="Confirm your password" required>
+
+        <input type="submit" value="Register">
+
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </form>
 </body>
 </html>
